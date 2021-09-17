@@ -1,0 +1,27 @@
+{
+    "name": "spanbin/yyfp",
+    "description": "ThinkPHP用友税务云SDK",
+    "homepage": "https://github.com/spanbin/yyfp",
+    "keywords": [
+        "ThinkPHP",
+        "yesfp",
+        "yonyou",
+        "fapiao"
+    ],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "spanbin",
+            "email": "shengjianbin@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "firebase/php-jwt": "^5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "spanbin\\yyfp\\": "src"
+        }
+    }
+}
