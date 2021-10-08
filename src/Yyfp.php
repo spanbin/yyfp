@@ -14,7 +14,9 @@ class Yyfp
         // 接口域名
         'domain' => 'https://yesfp.yonyoucloud.com',
         // 接口证书
-        'certificate' => __DIR__.'/pro22.pfx'
+        'certificate' => __DIR__.'/pro22.pfx',
+        // 证书密码
+        'password' => 'password'
     ];
 
     // 构造函数
@@ -153,7 +155,7 @@ class Yyfp
         if (!$cert_store = file_get_contents($file)) {
             throw new \Exception("Error: Unable to read the cert file $file .");
         }
-        if (openssl_pkcs12_read($cert_store, $cert_info, "password")) {
+        if (openssl_pkcs12_read($cert_store, $cert_info, $this->config['password'])) {
             return $cert_info['pkey'];
         } else {
             throw new \Exception("Error: Unable to read the cert store from $file .");
