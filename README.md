@@ -13,7 +13,9 @@
     // 接口域名
     'domain' => 'https://yesfp.yonyoucloud.com',
     // 接口证书
-    'certificate' => __DIR__.'/pro22.pfx'
+    'certificate' => __DIR__.'/pro22.pfx',
+    // 证书密码
+    'password' => 'password'
 ]
 
 // 正式环境yyfp配置
@@ -23,7 +25,9 @@
     // 接口域名
     'domain' => 'https://fapiao.yonyoucloud.com',
     // 接口证书
-    'certificate' => '证书路径'
+    'certificate' => '申请到的证书路径',
+    // 证书密码
+    'password' => '申请到的证书密码'
 ]
 ```
 
