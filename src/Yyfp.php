@@ -91,6 +91,16 @@ class Yyfp
         return $this->exec('/invoiceclient-web/api/invoiceApply/part-red', $params);
     }
     
+    /**
+     * 纸质发票作废
+     * @param array $params 入参
+     * @return array 出参
+     */
+    public function invalid($params = [])
+    {
+        return $this->exec('/invoiceclient-web/api/invoiceApply/invalid', $params);
+    }
+
     // 调用接口
     protected function exec($api, array $params) 
     {
