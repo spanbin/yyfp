@@ -101,19 +101,75 @@ class Yyfp
         return $this->exec('/invoiceclient-web/api/invoiceApply/invalid', $params);
     }
 
+    /**
+     * 获取专票
+     * @param array $params 入参
+     * @return array 出参
+     */
+    public function queryInvoice($params = [])
+    {
+        return $this->exec('/invoiceclient-web/api/vat/queryInvoice', $params, [
+            'header' => [
+                'Content-Type' => 'application/json'
+            ]
+        ]);
+    }
+
+    /**
+     * 发票勾选
+     * @param array $params 入参
+     * @return array 出参
+     */
+    public function gxtj($params = [])
+    {
+        return $this->exec('/invoiceclient-web/api/vat/gxtj', $params, [
+            'header' => [
+                'Content-Type' => 'application/json'
+            ]
+        ]);
+    }
+
+    /**
+     * 撤销勾选
+     * @param array $params 入参
+     * @return array 出参
+     */
+    public function cxgx($params = [])
+    {
+        return $this->exec('/invoiceclient-web/api/vat/cxgx', $params, [
+            'header' => [
+                'Content-Type' => 'application/json'
+            ]
+        ]);
+    }
+
+    /**
+     * 确认认证
+     * @param array $params 入参
+     * @return array 出参
+     */
+    public function qrrz($params = [])
+    {
+        return $this->exec('/invoiceclient-web/api/vat/qrrz', $params, [
+            'header' => [
+                'Content-Type' => 'application/json'
+            ]
+        ]);
+    }
+
     // 调用接口
-    protected function exec($api, array $params) 
+    protected function exec($api, array $params, $options = [
+        'header' => [
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ]
+    ]) 
     {
         // 拼接接口地址
         $api = $this->config['domain'] . $api . "?appid=" . $this->config['appId'];
         // 记录日志
         Log::write('接口地址，'.$api,Log::INFO);
-        // header参数
-        $options = array(
-            'header' => array(
-                'sign' => $this->sign($params),
-            )
-        );
+        // 添加签名header
+        $options['header']['sign'] = $this->sign($params);
         // 发起post请求
         return $this->post($api, $params, $options);
     }
@@ -179,9 +235,25 @@ class Yyfp
         $this->setOption($ch, $options);
         curl_setopt($ch, CURLOPT_URL,$url);
         curl_setopt($ch, CURLOPT_POST, count($params));
-        // 记录日志
+        // 记录请求头
+        Log::write('请求头：'.json_encode($options,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),Log::INFO);
+        // 记录入参数
         Log::write('入参：'.json_encode($params,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE),Log::INFO);
-        $params = http_build_query($params);
+        // 如存在Content-Type参数
+        if(isset($options['header']['Content-Type'])){
+            // 处理入参
+            switch($options['header']['Content-Type']){
+                case 'application/json':
+                    $params = json_encode($params,JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
+                break;
+
+                case 'application/x-www-form-urlencoded':
+                    $params = http_build_query($params);
+                break;
+            }
+        }else{
+            $params = http_build_query($params);
+        }
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         $content = curl_exec($ch);
         // 记录日志
