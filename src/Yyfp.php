@@ -3,7 +3,7 @@
 namespace spanbin\yyfp;
 
 use \Firebase\JWT\JWT;
-use Log;
+use Think\Log;
 
 class Yyfp 
 {
